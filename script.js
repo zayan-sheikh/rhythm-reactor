@@ -68,13 +68,15 @@ input.addEventListener('change', ( event ) => {
 
     // Clear previous audio's event listener
     window.removeEventListener('change', audioToggle);
-    sound.stop();
 
     // Read audio input data
     var reader = new FileReader();
     
 
     reader.addEventListener('load', ( event ) => {
+        // Clear previous song
+        sound.stop();
+
         // On load, convert the binary data of audio to real audio (next 3 lines)
         var buffer = event.target.result;
         var context = THREE.AudioContext.getContext();
