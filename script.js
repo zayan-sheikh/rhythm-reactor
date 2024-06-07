@@ -32,7 +32,7 @@ const scene = new THREE.Scene();
 
 
 // Material
-const geometry = new THREE.IcosahedronGeometry(2, 30)
+const geometry = new THREE.IcosahedronGeometry(2, 20);
 
 const mesh = new THREE.Mesh(geometry, material);
 
@@ -68,24 +68,27 @@ input.addEventListener('change', ( event ) => {
 
     // Clear previous audio's event listener
     window.removeEventListener('change', audioToggle);
+    sound.stop();
 
     // Read audio input data
     var reader = new FileReader();
+    
 
     reader.addEventListener('load', ( event ) => {
         // On load, convert the binary data of audio to real audio (next 3 lines)
         var buffer = event.target.result;
         var context = THREE.AudioContext.getContext();
 
-        context.decodeAudioData(buffer, ( audioBuffer )=>{
+        
 
+        context.decodeAudioData(buffer, ( audioBuffer )=>{
             sound.setBuffer(audioBuffer);
-            sound.pause();
 
             console.log("Audio loaded successfully.");            
 
             // Add new event listener for updated audio
             window.addEventListener('click', audioToggle);
+            
         });
     });
 
