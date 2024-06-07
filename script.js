@@ -32,7 +32,7 @@ const scene = new THREE.Scene();
 
 
 // Material
-const geometry = new THREE.IcosahedronGeometry(2, 25)
+const geometry = new THREE.IcosahedronGeometry(2, 30)
 
 const mesh = new THREE.Mesh(geometry, material);
 
@@ -55,7 +55,51 @@ camera.add(listener);
 
 const sound = new THREE.Audio(listener);
 
-const audioLoader = new THREE.AudioLoader();
+function audioToggle() {
+    if (sound.isPlaying) {
+        sound.pause();
+    } else {
+        sound.play();
+    };
+}
+
+var input = document.querySelector('#audio_input');
+input.addEventListener('change', ( event ) => {
+    
+    // Read audio input data
+    var reader = new FileReader();
+
+
+
+    reader.addEventListener('load', ( event ) => {
+        // On load, convert the binary data of audio to real audio (next 3 lines)
+        var buffer = event.target.result;
+        var context = THREE.AudioContext.getContext();
+
+        
+
+        context.decodeAudioData(buffer, ( audioBuffer )=>{
+
+            sound.setBuffer(audioBuffer);
+            sound.pause();
+
+            console.log("Audio loaded successfully.")
+
+            // Clear previous audio's event listener
+            window.removeEventListener('change', audioToggle);
+
+            // Add new event listener for updated audio
+            window.addEventListener('click', audioToggle);
+        });
+    });
+
+    var audioFile = event.target.files[0];
+    reader.readAsArrayBuffer( audioFile );
+
+    
+    
+
+});
 
 // audio_input.onchange = function() {
 //     var file = this.files[0];
@@ -67,29 +111,23 @@ const audioLoader = new THREE.AudioLoader();
 //     context.decodeAudioData(buffer, function (audioBuffer) {
 //         sound.setBuffer( audioBuffer );
         
-//         window.addEventListener('click', function() {
-//             if (sound.isPlaying) {
-//                 sound.pause();
-//             } else {
-//                 sound.play();
-//             }
-//         });
+
 
 //     })
 
 
     
 
-    audioLoader.load("./media/fillTheVoid.mp3", function(buffer) {
-        sound.setBuffer(buffer);
-        window.addEventListener('click', function() {
-            if (sound.isPlaying) {
-                sound.pause();
-            } else {
-                sound.play();
-            }
-        });
-    });
+    // audioLoader.load("./media/fillTheVoid.mp3", function(buffer) {
+    //     sound.setBuffer(buffer);
+    //     window.addEventListener('click', function() {
+    //         if (sound.isPlaying) {
+    //             sound.pause();
+    //         } else {
+    //             sound.play();
+    //         }
+    //     });
+    // });
 
     const analyser = new THREE.AudioAnalyser(sound, 32);
 
