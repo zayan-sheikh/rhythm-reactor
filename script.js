@@ -5,18 +5,16 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 
-const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+function initScene() {
+    
 }
-
-const uniforms = {
+var uniforms = {
     u_resolution: {type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
     u_time: {type: 'f', value: 0.0},
     u_frequency: {type: 'f', value: 0.0}
 }
 
-const material = new THREE.ShaderMaterial ({
+var material = new THREE.ShaderMaterial ({
     uniforms,
     vertexShader: document.getElementById('vertexshader').textContent,
     fragmentShader: document.getElementById('fragmentshader').textContent
@@ -31,7 +29,7 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 
-// Material
+// Object
 const geometry = new THREE.IcosahedronGeometry(2, 20);
 
 const mesh = new THREE.Mesh(geometry, material);
@@ -42,7 +40,7 @@ scene.add(mesh);
 
 
 // Camera
-const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height);
+const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight);
 
 
 camera.position.set(0,0,7)
@@ -58,8 +56,12 @@ const sound = new THREE.Audio(listener);
 function audioToggle() {
     if (sound.isPlaying) {
         sound.pause();
+        document.getElementById("upload_label").classList.add("shown");
+        document.getElementById("upload_label").classList.remove("not-shown");
     } else {
         sound.play();
+        document.getElementById("upload_label").classList.add("not-shown");
+        document.getElementById("upload_label").classList.remove("shown");
     };
 }
 
@@ -67,8 +69,9 @@ var input = document.querySelector('#audio_input');
 input.addEventListener('change', ( event ) => {
 
     // Clear previous audio's event listener
-    window.removeEventListener('change', audioToggle);
-
+    canvas.removeEventListener('change', audioToggle);
+    document.getElementById("upload_label").classList.add("shown");
+    document.getElementById("upload_label").classList.remove("not-shown");
     // Read audio input data
     var reader = new FileReader();
     
@@ -89,7 +92,7 @@ input.addEventListener('change', ( event ) => {
             console.log("Audio loaded successfully.");            
 
             // Add new event listener for updated audio
-            window.addEventListener('click', audioToggle);
+            canvas.addEventListener('click', audioToggle);
             
         });
     });
@@ -102,43 +105,16 @@ input.addEventListener('change', ( event ) => {
 
 });
 
-// audio_input.onchange = function() {
-//     var file = this.files[0];
-//     // var audioURL = URL.createObjectURL(file);
-//     // audio_file.src = audioURL;
-//     var reader = new FileReader();
-//     var buffer = reader.readAsArrayBuffer(file);
-//     var context = THREE.AudioContext.getContext();
-//     context.decodeAudioData(buffer, function (audioBuffer) {
-//         sound.setBuffer( audioBuffer );
-        
-
-
-//     })
-
-
-    
-
-    // audioLoader.load("./media/fillTheVoid.mp3", function(buffer) {
-    //     sound.setBuffer(buffer);
-    //     window.addEventListener('click', function() {
-    //         if (sound.isPlaying) {
-    //             sound.pause();
-    //         } else {
-    //             sound.play();
-    //         }
-    //     });
-    // });
-
     const analyser = new THREE.AudioAnalyser(sound, 32);
 
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    antialias: true
 })
 
-renderer.setSize(sizes.width, sizes.height);
+renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000);
 
 
@@ -190,6 +166,12 @@ window.addEventListener('resize', function() {
     camera.aspect = window.innerWidth/ window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    bloomComposer.setSize(sizes.width, sizes.height);
+    bloomComposer.setSize(window.innerWidth, window.innerHeight);
+    
+
+ 
+
+
+
 })
 
