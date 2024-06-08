@@ -118,9 +118,6 @@ input.addEventListener('change', ( event ) => {
             audioElem.currentTime = seekBar.value;
         })
     }
-   
-    
-
 });
 
     const analyser = new THREE.AudioAnalyser(sound, 32);
@@ -184,11 +181,5 @@ window.addEventListener('resize', function() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     bloomComposer.setSize(window.innerWidth, window.innerHeight);
-    
-
- 
-
-
-
 })
 
