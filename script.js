@@ -48,59 +48,77 @@ camera.position.set(0,0,7)
 scene.add(camera);
 
 // Audio
-const listener = new THREE.AudioListener();
+var listener = new THREE.AudioListener();
 camera.add(listener);
-
-const sound = new THREE.Audio(listener);
+var audioElem = document.getElementById('audio_file');
+var sound = new THREE.Audio(listener);
+sound.setMediaElementSource(document.getElementById('audio_file'));
+sound.hasPlaybackControl = true;
 
 function audioToggle() {
-    if (sound.isPlaying) {
-        sound.pause();
-        document.getElementById("upload_label").classList.add("shown");
-        document.getElementById("upload_label").classList.remove("not-shown");
+    if (audioElem.paused) {
+        audioElem.play();
+        // R: document.getElementById("upload_label").classList.add("shown");
+        // R: document.getElementById("upload_label").classList.remove("not-shown");
     } else {
-        sound.play();
-        document.getElementById("upload_label").classList.add("not-shown");
-        document.getElementById("upload_label").classList.remove("shown");
+        audioElem.pause();
+        // R: document.getElementById("upload_label").classList.add("not-shown");
+        // R: document.getElementById("upload_label").classList.remove("shown");
     };
+    console.log(audioElem.currentTime)
 }
 
+var seekBar = document.querySelector('.seek_bar');
 var input = document.querySelector('#audio_input');
 input.addEventListener('change', ( event ) => {
 
     // Clear previous audio's event listener
     canvas.removeEventListener('change', audioToggle);
-    document.getElementById("upload_label").classList.add("shown");
-    document.getElementById("upload_label").classList.remove("not-shown");
-    // Read audio input data
-    var reader = new FileReader();
-    
-
-    reader.addEventListener('load', ( event ) => {
-        // Clear previous song
-        sound.stop();
-
-        // On load, convert the binary data of audio to real audio (next 3 lines)
-        var buffer = event.target.result;
-        var context = THREE.AudioContext.getContext();
-
-        
-
-        context.decodeAudioData(buffer, ( audioBuffer )=>{
-            sound.setBuffer(audioBuffer);
-
-            console.log("Audio loaded successfully.");            
-
-            // Add new event listener for updated audio
-            canvas.addEventListener('click', audioToggle);
-            
-        });
-    });
+    // R: document.getElementById("upload_label").classList.add("shown");
+    // R: document.getElementById("upload_label").classList.remove("not-shown");
 
     var audioFile = event.target.files[0];
-    reader.readAsArrayBuffer( audioFile );
+    $("#src").attr("src", URL.createObjectURL(audioFile));
+    document.getElementById('audio_file').load();
 
+    audioElem.onloadedmetadata = () => {
+        seekBar.value = 0
+        seekBar.max = audioElem.duration;
+    }
+
+   
+
+    listener.context.resume();
+
+    console.log("Audio loaded successfully.");            
+
+    // Add new event listener for updated audio
+    canvas.addEventListener('click', audioToggle);
+    setMusic();
     
+   
+    
+    function setMusic() {
+        // Splits file extension off of audio file title
+        var split = event.target.files[0].name.split('.');
+        
+        split.pop();
+        
+        var title = split.join('.');
+        console.log(title)
+        
+        document.querySelector('.player_text').innerHTML = title;
+
+        
+        setInterval(() => {
+            seekBar.value = audioElem.currentTime;
+        }, 500);
+
+        seekBar.addEventListener('change', () => {
+            audioElem.currentTime = seekBar.value;
+        })
+    }
+   
     
 
 });
@@ -110,8 +128,7 @@ input.addEventListener('change', ( event ) => {
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true
+    canvas: canvas
 })
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -163,7 +180,7 @@ animate();
 
 // Responsiveness
 window.addEventListener('resize', function() {
-    camera.aspect = window.innerWidth/ window.innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     bloomComposer.setSize(window.innerWidth, window.innerHeight);

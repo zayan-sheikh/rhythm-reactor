@@ -4,13 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Audio Visualizer</title>
 </head>
 <body>
-  <input class="upload_btn" type="file" id="audio_input" accept="audio/*">
-  <label class="upload_btn shown" for="audio_input" id="upload_label">UPLOAD MUSIC</label>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <audio id="audio_file" controls>
+    <source src="" id="src" />
+  </audio>
+  <div class="controller">
+  <div class="shown" id="info">
+    <div id="panel">
+      <h1>Currently playing:</h1>
+      <h3 class="player_text">Nothing</h3>
+    </div>
+    
+    <input class="upload_btn" type="file" id="audio_input" accept="audio/*">
+    <label class="upload_btn shown" for="audio_input" id="upload_label">
+      <h3 class="button-text">Select audio</h3>
+    </label>
+  </div>
+
+  <div class="scrubber">
+    <input type="range" value="0" class="seek_bar"></input>
+  </div>
+  </div>
+  
   <!-- <label id="instruct">TAP ANYWHERE TO PLAY!</label> -->
-  <audio id="audio_file"></audio>
     <canvas class="webgl"></canvas>
 
     <script id="vertexshader" type="vertex">
