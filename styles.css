@@ -52,16 +52,17 @@ canvas {
     height: fit-content;
     font-family: var(--mainFont);
     font-weight:normal;
-    font-size: 15pt
+    font-size: 12pt
 }
 
-.controller {
-    opacity: 0.9;
+#controller {
+    opacity: 0;
     position: absolute;
     display: flex;
     flex-direction: column;
     bottom: 10px;
-    left: 10px;    
+    /* left: 10px;     */
+    left: -100%;  
     margin: auto;
     margin-bottom: 10px;
     border-radius: 20px;    
@@ -72,6 +73,7 @@ canvas {
     background-color: var(--backing);
     z-index: 2;
     overflow: hidden;    
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
 }
 
 .scrubber {
@@ -87,15 +89,11 @@ canvas {
     appearance: none;
     height: 3px;
     width: 90%;
-
     margin-left: 5%;
     border-radius: 10px;
     cursor: pointer;
     background: var(--grey);
-    accent-color: var(--grey);
-          
     overflow: hidden;
-
 }
 
 .seek_bar::-webkit-slider-thumb {
@@ -131,10 +129,6 @@ canvas {
     border-radius: 10px;
 } */
 
-.shown:hover {
-    cursor: pointer;
-}
-
 #panel {
     align-self: center;
     background-color: var(--grey);
@@ -147,12 +141,14 @@ canvas {
 
 }
 
-h1 {
+.curr-playing {
     margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 0;
     font-family: var(--mainFont);
     font-weight: normal;
+    font-size: 12pt;
+    
 }
 
 .player_text {
@@ -217,3 +213,42 @@ h1 {
     color: var(--txtMain);
     font-size: 15pt;
 }
+
+#hover_button {
+    position: absolute;
+    z-index: 1;
+    opacity: 0.85;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    bottom: 20px;
+    left: 20px;
+    background-color: var(--backing);
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.shown {
+    visibility: visible;
+}
+
+#hover_button:hover {
+    opacity: 0;
+    left: -20px;
+}
+
+
+
+#hover_button:hover + #controller {
+    left: 20px;
+    opacity: 0.85;
+}
+
+#controller:hover {
+    left: 20px;
+    opacity: 0.85;
+}
+

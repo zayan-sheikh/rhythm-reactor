@@ -11,16 +11,21 @@
   <audio id="audio_file" controls>
     <source src="" id="src" />
   </audio>
-  <div class="controller">
-  <div class="shown" id="info">
+
+  <div id="hover_button" class="shown"></div>
+  <div id="controller">
+
+  <div id="info">
+    
     <div id="panel">
-      <h1>Currently playing:</h1>
+      <h1 class="curr-playing">Currently playing:</h1>
       <h3 class="player_text">Nothing</h3>
     </div>
     
     <input class="upload_btn" type="file" id="audio_input" accept="audio/*">
     <label class="upload_btn shown" for="audio_input" id="upload_label">
       <h3 class="button-text">Select audio</h3>
+    
     </label>
   </div>
 

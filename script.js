@@ -188,3 +188,16 @@ window.addEventListener('resize', function() {
 
 })
 
+// Sidebar functionality
+
+var button = document.getElementById('hover_button');
+var controller = document.getElementById('controller');
+
+$("#controller").hover(()=>{
+    $("#hover_button").hide();
+},()=>{
+    $("#hover_button").show();
+})
+
+
+console.log(button.classList);
