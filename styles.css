@@ -17,6 +17,7 @@
 
 body {
     margin: 0px;
+    overflow: hidden;
 }
 
 canvas {
@@ -60,12 +61,11 @@ canvas {
     position: absolute;
     display: flex;
     flex-direction: column;
-    bottom: 10px;
-    /* left: 10px;     */
-    left: -100%;  
+    bottom: -100%;
+    left: 0;  
+    right: 0;
     margin: auto;
-    margin-bottom: 10px;
-    border-radius: 20px;    
+    border-radius: 20px;
     height: 110px;
     min-width: 350px;
     max-width: 400px;
@@ -120,15 +120,6 @@ canvas {
     z-index: 1;
 }
 
-/* .shown {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: white;
-    
-    transition:all 400ms ease-in-out;
-    border-radius: 10px;
-} */
-
 #panel {
     align-self: center;
     background-color: var(--grey);
@@ -165,48 +156,9 @@ audio {
     position: absolute;
 }
 
-/* .not-shown {
-    outline: none;
-    background-color: none;
-    transition:all 400ms ease-in-out;
-    border-radius: 10px;
-    opacity: 0;
-}
-
-.not-shown:hover {
-    opacity: 1;
-    cursor: pointer;
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: white;
-    background-color: rgba(0,0,0,0.2);
-   
-    color:rgb(255, 255, 255);
-    
-    scale: 1.1;
-} */
-
 input[type="file"]{
     display: none;
 }
-
-/* #instruct {
-    text-align: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    align-self: center;
-    width: 400px;
-    height: 60px;
-    margin-left: auto;
-    margin-right: auto;
-    color:whitesmoke;
-    z-index: 10;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bold;
-    font-size: 20pt
-} */
 
 h1 {
     font-family: var(--mainFont);
@@ -216,15 +168,19 @@ h1 {
 
 #hover_button {
     position: absolute;
+    text-align: center;
+    color:aliceblue;
+    background-color: transparent;
     z-index: 1;
     opacity: 0.85;
     width: 30px;
     height: 30px;
     border-radius: 50px;
-    bottom: 20px;
-    left: 20px;
-    background-color: var(--backing);
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
 }
 
 .hidden {
@@ -237,18 +193,18 @@ h1 {
 
 #hover_button:hover {
     opacity: 0;
-    left: -20px;
+    bottom: -10px;
 }
 
 
 
 #hover_button:hover + #controller {
-    left: 20px;
+    bottom: 10px;
     opacity: 0.85;
 }
 
 #controller:hover {
-    left: 20px;
+    bottom: 10px;
     opacity: 0.85;
 }
 
