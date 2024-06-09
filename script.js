@@ -117,6 +117,7 @@ input.addEventListener('change', ( event ) => {
         seekBar.addEventListener('change', () => {
             audioElem.currentTime = seekBar.value;
         })
+        
     }
 });
 
@@ -130,7 +131,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000);
-
+renderer.setPixelRatio( window.devicePixelRatio );
 
 const orbit = new OrbitControls(camera, renderer.domElement);
 
@@ -149,6 +150,7 @@ bloomComposer.addPass(bloomPass);
 const outputPass = new OutputPass();
 bloomComposer.addPass(outputPass);
 
+bloomComposer.setPixelRatio(window.devicePixelRatio);
 
 // Animation
 const clock = new THREE.Clock();
@@ -178,8 +180,11 @@ animate();
 // Responsiveness
 window.addEventListener('resize', function() {
     camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     bloomComposer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio( window.devicePixelRatio );
+    bloomComposer.setPixelRatio( window.devicePixelRatio );
+    camera.updateProjectionMatrix();
+
 })
 

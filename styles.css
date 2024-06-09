@@ -1,12 +1,22 @@
 :root {
     --grey: rgb(226, 226, 226);
+    --backing: rgb(240,240,240);
+    --txtMain: rgb(56,56,56);
+    --txtTitle: rgb(90,90,90);
     --mainFont: 'roboto', sans-serif;
+    --seekbarColor: #55cfff;
+
+    /* DARK MODE CONSTANTS:
+    --grey: rgb(34, 34, 34);
+    --backing: rgb(24, 24, 24);
+    --txtMain: rgb(255, 255, 255);
+    --txtTitle: rgb(155, 155, 155);
+    --mainFont: 'roboto', sans-serif;
+    --seekbarColor: #00a2ff; */
 }
 
 body {
     margin: 0px;
-    display: grid;
-    place-content: center;
 }
 
 canvas {
@@ -27,7 +37,7 @@ canvas {
     height: 80px;
     margin-left: auto;
     margin-right: 10px;
-    color: rgb(56, 56, 56);
+    color: var(--txtMain);
     z-index: 2;
 }
 
@@ -46,27 +56,28 @@ canvas {
 }
 
 .controller {
+    opacity: 0.9;
     position: absolute;
     display: flex;
     flex-direction: column;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 10px;
+    left: 10px;    
     margin: auto;
     margin-bottom: 10px;
     border-radius: 20px;    
     height: 110px;
+    min-width: 350px;
     max-width: 400px;
     align-content: center;
-    background-color: rgb(240, 240, 240);
-    z-index: 1;
+    background-color: var(--backing);
+    z-index: 2;
     overflow: hidden;    
 }
 
 .scrubber {
     position: absolute;
     bottom: 0;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     z-index: inherit;
     width: 100%;
     border-radius: 20px;
@@ -75,11 +86,13 @@ canvas {
 .seek_bar {
     appearance: none;
     height: 3px;
-    width: 100%;
+    width: 90%;
+
+    margin-left: 5%;
     border-radius: 10px;
     cursor: pointer;
     background: var(--grey);
-    accent-color: rgb(0, 0, 0);
+    accent-color: var(--grey);
           
     overflow: hidden;
 
@@ -87,7 +100,7 @@ canvas {
 
 .seek_bar::-webkit-slider-thumb {
     appearance: none;
-    box-shadow: -400px 0 0 400px #000;
+    box-shadow: -400px 0 0 400px var(--seekbarColor);
     width: 10px;
     height: 3px;
 }
@@ -105,7 +118,7 @@ canvas {
     height: 100px;
     max-width: 400px;
     align-content: center;
-    background-color: rgb(240, 240, 240);
+    background-color: var(--backing);
     z-index: 1;
 }
 
@@ -146,9 +159,9 @@ h1 {
     font-family: var(--mainFont);
     font-weight: normal;
     margin-left: 10px;
-    margin-top: 5px;
+    margin-top: 2px;
     font-size: 12pt;
-    color: rgb(90, 90, 90);
+    color: var(--txtTitle);
 }
 
 audio {
@@ -201,6 +214,6 @@ input[type="file"]{
 
 h1 {
     font-family: var(--mainFont);
-    color: rgb(59, 59, 59);
+    color: var(--txtMain);
     font-size: 15pt;
 }
