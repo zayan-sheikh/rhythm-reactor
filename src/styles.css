@@ -39,11 +39,8 @@ canvas {
 .upload_btn {
     position: relative;
     text-align: center;
-    
-    /* position: absolute; */
     background-color: var(--grey);
     border-radius: 10px;
-    
     align-self: center;
     width: 145px;
     height: 80px;
@@ -51,6 +48,11 @@ canvas {
     margin-right: 10px;
     color: var(--txtMain);
     z-index: 2;
+    transition: all 1s;
+}
+
+.upload_btn:hover {
+    cursor: pointer;
 }
 
 .button-text {
@@ -205,6 +207,7 @@ h1 {
 
 #hover_button:hover {
     opacity: 0;
+    cursor: pointer;
     bottom: -10px;
 }
 
