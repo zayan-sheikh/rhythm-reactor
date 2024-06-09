@@ -58,12 +58,8 @@ sound.hasPlaybackControl = true;
 function audioToggle() {
     if (audioElem.paused) {
         audioElem.play();
-        // R: document.getElementById("upload_label").classList.add("shown");
-        // R: document.getElementById("upload_label").classList.remove("not-shown");
     } else {
         audioElem.pause();
-        // R: document.getElementById("upload_label").classList.add("not-shown");
-        // R: document.getElementById("upload_label").classList.remove("shown");
     };
 }
 
@@ -85,11 +81,7 @@ input.addEventListener('change', ( event ) => {
         seekBar.max = audioElem.duration;
     }
 
-   
-
-    listener.context.resume();
-
-    console.log("Audio loaded successfully.");            
+    listener.context.resume();        
 
     // Add new event listener for updated audio
     canvas.addEventListener('click', audioToggle);
@@ -115,6 +107,12 @@ input.addEventListener('change', ( event ) => {
         seekBar.addEventListener('change', () => {
             audioElem.currentTime = seekBar.value;
         })
+
+    // Display popup message to play
+    $('#instruct').animate({"opacity": 1}, 200);
+    setTimeout(()=>{
+        $('#instruct').animate({'opacity':0});
+    }, 3000)  
         
     }
 });
