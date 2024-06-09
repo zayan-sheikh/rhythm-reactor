@@ -32,11 +32,24 @@ const scene = new THREE.Scene();
 // Object
 const geometry = new THREE.IcosahedronGeometry(2, 20);
 
+const geoPlane = new THREE.PlaneGeometry(30,30,15,15);
+
 const mesh = new THREE.Mesh(geometry, material);
+
+const plane1 = new THREE.Mesh(geoPlane, material);
+const plane2 = new THREE.Mesh(geoPlane, material);
+
+plane1.rotateX(Math.PI/2);
+plane1.position.set(0, -2, 0)
+
+plane2.rotateX(Math.PI/2);
+plane2.position.set(0, 2, 0)
 
 mesh.material.wireframe = true;
 
 scene.add(mesh);
+scene.add(plane1);
+scene.add(plane2);
 
 
 // Camera
@@ -129,7 +142,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x000);
 renderer.setPixelRatio( window.devicePixelRatio );
 
-const orbit = new OrbitControls(camera, renderer.domElement);
+// ORBIT CONTROLS [DISABLED]
+// const orbit = new OrbitControls(camera, renderer.domElement);
 
 // Post-processing
 renderer.outputColorSpace = THREE.SRGBColorSpace;
