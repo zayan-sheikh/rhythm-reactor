@@ -25,6 +25,17 @@ canvas {
     filter:saturate(2);
 }
 
+#logo {
+    position: absolute;
+    z-index: 10;
+    top: -10px;
+    left: 0;
+    right: 0;
+    width: 75px;
+    margin: auto;
+    color: white;
+}
+
 .upload_btn {
     position: relative;
     text-align: center;
@@ -209,3 +220,21 @@ h1 {
     opacity: 0.85;
 }
 
+#instruct {
+    z-index: 10;
+    position: absolute;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    top: 60px;
+    left: 0;
+    right: 0;
+    width: 300px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.5);
+    margin: auto;
+    font-family: var(--mainFont);
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+    
+
+}
