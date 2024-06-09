@@ -65,7 +65,6 @@ function audioToggle() {
         // R: document.getElementById("upload_label").classList.add("not-shown");
         // R: document.getElementById("upload_label").classList.remove("shown");
     };
-    console.log(audioElem.currentTime)
 }
 
 var seekBar = document.querySelector('.seek_bar');
@@ -105,7 +104,6 @@ input.addEventListener('change', ( event ) => {
         split.pop();
         
         var title = split.join('.');
-        console.log(title)
         
         document.querySelector('.player_text').innerHTML = title;
 
@@ -199,5 +197,3 @@ $("#controller").hover(()=>{
     $("#hover_button").show();
 })
 
-
-console.log(button.classList);

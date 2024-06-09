@@ -72,7 +72,7 @@ canvas {
     align-content: center;
     background-color: var(--backing);
     z-index: 2;
-    overflow: hidden;    
+    overflow: hidden;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 500ms;
 }
 
@@ -181,6 +181,7 @@ h1 {
     right: 0;
     margin: auto;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 5s;
+    font-size: 25pt;
 }
 
 .hidden {
