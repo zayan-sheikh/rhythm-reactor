@@ -1,13 +1,10 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-function initScene() {
-    
-}
 var uniforms = {
     u_resolution: {type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
     u_time: {type: 'f', value: 0.0},
@@ -32,24 +29,33 @@ const scene = new THREE.Scene();
 // Object
 const geometry = new THREE.IcosahedronGeometry(2, 20);
 
-const geoPlane = new THREE.PlaneGeometry(30,30,15,15);
-
 const mesh = new THREE.Mesh(geometry, material);
 
-const plane1 = new THREE.Mesh(geoPlane, material);
-const plane2 = new THREE.Mesh(geoPlane, material);
 
-plane1.rotateX(Math.PI/2);
-plane1.position.set(0, -2, 0)
 
-plane2.rotateX(Math.PI/2);
-plane2.position.set(0, 2, 0)
+
 
 mesh.material.wireframe = true;
 
 scene.add(mesh);
-scene.add(plane1);
-scene.add(plane2);
+
+
+
+// PLANES FOR BACKGROUND [REMOVED]
+// const geoPlane = new THREE.PlaneGeometry(30,30,15,15);
+
+// const plane1 = new THREE.Mesh(geoPlane, material);
+// const plane2 = new THREE.Mesh(geoPlane, material);
+
+// plane1.rotateX(Math.PI/2);
+// plane1.position.set(0, -2, 0)
+
+// plane2.rotateX(Math.PI/2);
+// plane2.position.set(0, 2, 0)
+
+
+// scene.add(plane1);
+// scene.add(plane2);
 
 
 // Camera
@@ -82,8 +88,6 @@ input.addEventListener('change', ( event ) => {
 
     // Clear previous audio's event listener
     canvas.removeEventListener('change', audioToggle);
-    // R: document.getElementById("upload_label").classList.add("shown");
-    // R: document.getElementById("upload_label").classList.remove("not-shown");
 
     var audioFile = event.target.files[0];
     $("#src").attr("src", URL.createObjectURL(audioFile));
@@ -106,7 +110,27 @@ input.addEventListener('change', ( event ) => {
         // Splits file extension off of audio file title
         var split = event.target.files[0].name.split('.');
         
-        split.pop();
+        let fileExtension = split.pop();
+
+        if (fileExtension != "mp3" &&
+            fileExtension != "wav" &&
+            fileExtension != "m4a" &&
+            fileExtension != "oog" &&
+            fileExtension != "aac") {
+
+                $('#instruct').html("File type not supported, please only use audio files.");
+                
+                $('.player_text').html("Nothing");
+
+
+                $('#instruct').animate({"opacity": 1}, 200);
+                setTimeout(()=>{
+                $('#instruct').animate({'opacity':0});
+                }, 3000)        
+
+                
+                return;
+            }
         
         var title = split.join('.');
         
@@ -115,13 +139,14 @@ input.addEventListener('change', ( event ) => {
         
         setInterval(() => {
             seekBar.value = audioElem.currentTime;
-        }, 500);
+        }, 300);
 
         seekBar.addEventListener('change', () => {
             audioElem.currentTime = seekBar.value;
         })
 
     // Display popup message to play
+    $('#instruct').html("Audio loaded, tap anywhere to play!");
     $('#instruct').animate({"opacity": 1}, 200);
     setTimeout(()=>{
         $('#instruct').animate({'opacity':0});
@@ -147,9 +172,9 @@ renderer.setPixelRatio( window.devicePixelRatio );
 
 // Post-processing
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+
 const renderScene = new RenderPass(scene, camera);
 const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.5, 0.8, 0.5);
-
 
 const bloomComposer = new EffectComposer(renderer);
 
@@ -170,14 +195,18 @@ let speed = 0.002;
 function animate() {
     uniforms.u_time.value = clock.getElapsedTime();
     uniforms.u_frequency.value = analyser.getAverageFrequency();
-    mesh.rotation.y += 0.0006
-    mesh.rotation.x += 0.0007
-    mesh.rotation.z += 0.0008
+    mesh.rotation.y += 0.0006;
+    mesh.rotation.x += 0.0007;
+    mesh.rotation.z += 0.0008;
+
+    // PLANE ROTATION [REMOVED]
+    // plane1.rotation.z += 0.0005;
+    // plane2.rotation.z += 0.0005;
+
     step += speed;
     let freqCoeff = 0.3*(uniforms.u_frequency.value)/155;
     let val = freqCoeff + 0.5;
     mesh.scale.set(val,val,val)
-    
     // renderer.render(scene, camera) [NOT COMPATIBLE WITH POST-PROCESSING YET]
 
     bloomComposer.render();
