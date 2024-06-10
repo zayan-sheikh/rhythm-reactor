@@ -32,30 +32,42 @@ const geometry = new THREE.IcosahedronGeometry(2, 20);
 const mesh = new THREE.Mesh(geometry, material);
 
 
+// Particles
 
+// Geometry
+const particlesGeo = new THREE.SphereGeometry(0.01);
+
+
+// Material
+const particlesMat = new THREE.PointsMaterial();
+
+particlesMat.size = 0.002;
+particlesMat.sizeAttenuation = true;
+
+
+const testMat = new THREE.InstancedMesh(particlesGeo, particlesMat, 10000)
+
+// Points
 
 
 mesh.material.wireframe = true;
 
+scene.add(testMat)
+
+var tempCoords = new THREE.Object3D();
+
+for (let i = 0; i < 10000; i++) {
+    tempCoords.position.x = Math.random() * 40 - 20;
+    tempCoords.position.y = Math.random() * 40 - 20;
+    tempCoords.position.z = Math.random() * 40 - 20;
+
+    tempCoords.updateMatrix();
+    testMat.setMatrixAt(i, tempCoords.matrix);
+}
+
+
 scene.add(mesh);
 
-
-
-// PLANES FOR BACKGROUND [REMOVED]
-// const geoPlane = new THREE.PlaneGeometry(30,30,15,15);
-
-// const plane1 = new THREE.Mesh(geoPlane, material);
-// const plane2 = new THREE.Mesh(geoPlane, material);
-
-// plane1.rotateX(Math.PI/2);
-// plane1.position.set(0, -2, 0)
-
-// plane2.rotateX(Math.PI/2);
-// plane2.position.set(0, 2, 0)
-
-
-// scene.add(plane1);
-// scene.add(plane2);
 
 
 // Camera
