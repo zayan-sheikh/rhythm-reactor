@@ -31,7 +31,7 @@ const geometry = new THREE.IcosahedronGeometry(2, 20);
 
 const mesh = new THREE.Mesh(geometry, material);
 
-
+mesh.material.wireframe = true;
 // Particles
 
 // Geometry
@@ -44,15 +44,9 @@ const particlesMat = new THREE.PointsMaterial();
 particlesMat.size = 0.002;
 particlesMat.sizeAttenuation = true;
 
+const particles = new THREE.InstancedMesh(particlesGeo, particlesMat, 10000)
 
-const testMat = new THREE.InstancedMesh(particlesGeo, particlesMat, 10000)
-
-// Points
-
-
-mesh.material.wireframe = true;
-
-scene.add(testMat)
+scene.add(particles)
 
 var tempCoords = new THREE.Object3D();
 
@@ -62,13 +56,10 @@ for (let i = 0; i < 10000; i++) {
     tempCoords.position.z = Math.random() * 40 - 20;
 
     tempCoords.updateMatrix();
-    testMat.setMatrixAt(i, tempCoords.matrix);
+    particles.setMatrixAt(i, tempCoords.matrix);
 }
 
-
 scene.add(mesh);
-
-
 
 // Camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight);
