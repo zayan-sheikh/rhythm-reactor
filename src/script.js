@@ -256,19 +256,15 @@ animate();
 
 // Responsiveness
 window.addEventListener('resize', function() {
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = ( window.innerWidth / window.innerHeight );
     renderer.setSize(window.innerWidth, window.innerHeight);
     bloomComposer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio( window.devicePixelRatio );
     bloomComposer.setPixelRatio( window.devicePixelRatio );
     camera.updateProjectionMatrix();
-
 })
 
-// Sidebar functionality
-
-var button = document.getElementById('hover_button');
-var controller = document.getElementById('controller');
+// Controller popup functionality
 
 $("#controller").hover(()=>{
     $("#hover_button").hide();

@@ -21,7 +21,6 @@ body {
 }
 
 canvas {
-    display: block;
     filter:saturate(2);
 }
 
