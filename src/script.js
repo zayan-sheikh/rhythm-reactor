@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 var uniforms = {
     u_resolution: {type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
@@ -32,6 +32,7 @@ const geometry = new THREE.IcosahedronGeometry(2, 20);
 const mesh = new THREE.Mesh(geometry, material);
 
 mesh.material.wireframe = true;
+
 // Particles
 
 // Geometry
@@ -41,9 +42,7 @@ const particlesGeo = new THREE.SphereGeometry(0.01);
 // Material
 const particlesMat = new THREE.PointsMaterial();
 
-particlesMat.size = 0.002;
-particlesMat.sizeAttenuation = true;
-var particleCount = 6000;
+var particleCount = 3000
 
 const particles = new THREE.InstancedMesh(particlesGeo, particlesMat, particleCount)
 
@@ -53,14 +52,16 @@ var tempCoords = new THREE.Object3D();
 
 scene.add(mesh);
 
+// Rnadomize positions for particles
 for (let i = 0; i < particleCount; i++) {
-    tempCoords.position.x = Math.random() * 40 - 20;
-    tempCoords.position.y = Math.random() * 40 - 20;
-    tempCoords.position.z = Math.random() * 40 - 20;
+    tempCoords.position.x = (Math.random()) * 40 - 20;
+    tempCoords.position.y = (Math.random()) * 40 - 20;
+    tempCoords.position.z = (Math.random() - 0.45) * 40 - 20;
 
     tempCoords.updateMatrix();
     particles.setMatrixAt(i, tempCoords.matrix);
 }
+
 
 // Camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight);
@@ -173,7 +174,7 @@ renderer.setClearColor(0x000);
 renderer.setPixelRatio( window.devicePixelRatio );
 
 // ORBIT CONTROLS [DISABLED]
-// const orbit = new OrbitControls(camera, renderer.domElement);
+const orbit = new OrbitControls(camera, renderer.domElement);
 
 // Post-processing
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -234,7 +235,9 @@ function animate() {
 
         tempCoords.position.x = currCoords.x +  factor* Math.cos((uniforms.u_time.value / 100) * 2) + factor*(Math.sin(uniforms.u_time.value * 1) * 2) / 100;
         tempCoords.position.y = currCoords.y +  factor*Math.sin((uniforms.u_time.value / 100) * 2) + factor*(Math.cos(uniforms.u_time.value * 2) * 2) / 100;
-        tempCoords.position.z = currCoords.z + factor* Math.cos((uniforms.u_time.value / 100) * 2) + factor*(Math.sin(uniforms.u_time.value * 3) * 2) / 100;
+
+        // Line below partially commented to keep z the same
+        tempCoords.position.z = currCoords.z // + factor* Math.cos((uniforms.u_time.value / 100) * 2) + factor*(Math.sin(uniforms.u_time.value * 3) * 2) / 100;
     
         tempCoords.updateMatrix();
         particles.setMatrixAt(i, tempCoords.matrix);
