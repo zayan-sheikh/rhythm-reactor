@@ -43,14 +43,17 @@ const particlesMat = new THREE.PointsMaterial();
 
 particlesMat.size = 0.002;
 particlesMat.sizeAttenuation = true;
+var particleCount = 6000;
 
-const particles = new THREE.InstancedMesh(particlesGeo, particlesMat, 10000)
+const particles = new THREE.InstancedMesh(particlesGeo, particlesMat, particleCount)
 
 scene.add(particles)
 
 var tempCoords = new THREE.Object3D();
 
-for (let i = 0; i < 10000; i++) {
+scene.add(mesh);
+
+for (let i = 0; i < particleCount; i++) {
     tempCoords.position.x = Math.random() * 40 - 20;
     tempCoords.position.y = Math.random() * 40 - 20;
     tempCoords.position.z = Math.random() * 40 - 20;
@@ -58,8 +61,6 @@ for (let i = 0; i < 10000; i++) {
     tempCoords.updateMatrix();
     particles.setMatrixAt(i, tempCoords.matrix);
 }
-
-scene.add(mesh);
 
 // Camera
 const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight);
@@ -119,7 +120,8 @@ input.addEventListener('change', ( event ) => {
             fileExtension != "wav" &&
             fileExtension != "m4a" &&
             fileExtension != "oog" &&
-            fileExtension != "aac") {
+            fileExtension != "aac" &&
+            fileExtension != "opus") {
 
                 $('#instruct').html("File type not supported, please only use audio files.");
                 
@@ -195,6 +197,13 @@ const clock = new THREE.Clock();
 let step = 0;
 let speed = 0.002;
 
+var currDecomp = new THREE.Matrix4();
+
+var currCoords = new THREE.Vector3();
+var currRot = new THREE.Quaternion();
+var currScale = new THREE.Vector3();
+var factor = 0.001;
+
 function animate() {
     uniforms.u_time.value = clock.getElapsedTime();
     uniforms.u_frequency.value = analyser.getAverageFrequency();
@@ -210,7 +219,30 @@ function animate() {
     let freqCoeff = 0.3*(uniforms.u_frequency.value)/155;
     let val = freqCoeff + 0.5;
     mesh.scale.set(val,val,val)
+    
     // renderer.render(scene, camera) [NOT COMPATIBLE WITH POST-PROCESSING YET]
+
+    // Animate particles
+
+
+    for (let i = 0; i < particleCount; i++) {
+        
+        
+
+        particles.getMatrixAt(i, currDecomp);
+        currDecomp.decompose(currCoords, currRot, currScale);
+
+        tempCoords.position.x = currCoords.x +  factor* Math.cos((uniforms.u_time.value / 100) * 2) + factor*(Math.sin(uniforms.u_time.value * 1) * 2) / 100;
+        tempCoords.position.y = currCoords.y +  factor*Math.sin((uniforms.u_time.value / 100) * 2) + factor*(Math.cos(uniforms.u_time.value * 2) * 2) / 100;
+        tempCoords.position.z = currCoords.z + factor* Math.cos((uniforms.u_time.value / 100) * 2) + factor*(Math.sin(uniforms.u_time.value * 3) * 2) / 100;
+    
+        tempCoords.updateMatrix();
+        particles.setMatrixAt(i, tempCoords.matrix);
+    }
+    
+    particles.instanceMatrix.needsUpdate = true;
+
+
 
     bloomComposer.render();
     requestAnimationFrame(animate);
