@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 var uniforms = {
     u_resolution: {type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
@@ -174,7 +174,7 @@ renderer.setClearColor(0x000);
 renderer.setPixelRatio( window.devicePixelRatio );
 
 // ORBIT CONTROLS [DISABLED]
-const orbit = new OrbitControls(camera, renderer.domElement);
+// const orbit = new OrbitControls(camera, renderer.domElement);
 
 // Post-processing
 renderer.outputColorSpace = THREE.SRGBColorSpace;
