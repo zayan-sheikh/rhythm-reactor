@@ -264,6 +264,7 @@ window.addEventListener('resize', function() {
     camera.updateProjectionMatrix();
 })
 
+
 // Controller popup functionality
 
 $("#controller").hover(()=>{

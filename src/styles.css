@@ -16,12 +16,20 @@
 }
 
 body {
-    margin: 0px;
+    margin: 0;
     overflow: hidden;
+    background-color: black;
 }
 
 canvas {
     filter:saturate(2);
+}
+
+
+.webgl_container {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 #logo {
